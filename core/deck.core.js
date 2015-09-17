@@ -342,7 +342,11 @@ that use the API provided by core.
     removeContainerHashClass($.deck('getSlide', from).attr('id'));
     addContainerHashClass($.deck('getSlide', to).attr('id'));
     if (Modernizr.history) {
-      window.history.replaceState({}, "", hashPath);
+      // Raises a SecurityError when navigating, if the slides are opened locally.
+      try {
+        window.history.replaceState({}, "", hashPath);
+      } catch(e) {
+      }
     }
   };
 
